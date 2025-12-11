@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Assessment - TDD, OOP, SOLID, UML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .select-none {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        // Lucide icons as inline SVG
+        const icons = {
+            AlertCircle: () => `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
+            Clock: () => `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
+            CheckCircle: () => `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+            Download: () => `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`
+        };
+
+        // State management
+        let state = {
+            currentPage: 'instructions',
+            formData: { fullName: '', email: '', track: '' },
+            answers: {},
+            timeRemaining: 7200,
+            hasStarted: false,
+            isSubmitted: false,
+            score: null,
+            tabWarning: false
+        };
+
+        let timerInterval = null;
+
+        const questions = {
+            oop: [
+                { id: 'oop1', question: 'List the 4 main pillars of OOP?', options: ['Encapsulation, Inheritance, Polymorphism, Abstraction', 'Classes, Objects, Methods, Properties', 'Variables, Functions, Loops, Conditions', 'Data, Logic, Interface, Implementation'], correctAnswer: 0 },
+                { id: 'oop2', question: 'What is the term used to describe the process of hiding internal details and showing only functionalities?', options: ['Abstraction', 'Encapsulation', 'Inheritance', 'Polymorphism'], correctAnswer: 0 },
+                { id: 'oop3', question: 'What is a class in OOP?', options: ['A blueprint for creating objects', 'An instance of an object', 'A method that returns a value', 'A variable that stores data'], correctAnswer: 0 },
+                { id: 'oop4', question: 'Which of these keywords is used to create an object in most OOP languages?', options: ['new', 'create', 'instance', 'make'], correctAnswer: 0 },
+                { id: 'oop5', question: 'What does encapsulation help to achieve?', options: ['Data hiding and bundling of data with methods', 'Creating multiple instances of a class', 'Inheriting properties from parent classes', 'Executing code multiple times'], correctAnswer: 0 },
+                { id: 'oop6', question: 'Which concept allows a class to use properties and methods of another class?', options: ['Inheritance', 'Polymorphism', 'Encapsulation', 'Abstraction'], correctAnswer: 0 },
+                { id: 'oop7', question: 'Which of the following best describes polymorphism?', options: ['The ability of objects to take many forms', 'The process of hiding data', 'Creating blueprints for objects', 'Storing multiple values in one variable'], correctAnswer: 0 },
+                { id: 'oop8', question: 'What is an object in OOP?', options: ['An instance of a class', 'A blueprint for creating classes', 'A method that returns data', 'A type of variable'], correctAnswer: 0 },
+                { id: 'oop9', question: 'Inheritance in OOP allows for:', options: ['Code reusability and establishing relationships between classes', 'Hiding implementation details', 'Creating multiple objects at once', 'Executing methods in parallel'], correctAnswer: 0 }
+            ],
+            tdd: [
+                { id: 'tdd1', question: 'What is the correct sequence of steps in the TDD cycle?', options: ['Write test, Run test (fail), Write code, Run test (pass), Refactor', 'Write code, Write test, Run test, Refactor', 'Design, Code, Test, Deploy', 'Plan, Build, Test, Release'], correctAnswer: 0 },
+                { id: 'tdd2', question: 'In TDD, when should you write your tests?', options: ['Before writing the implementation code', 'After writing the implementation code', 'During code review', 'After deployment'], correctAnswer: 0 },
+                { id: 'tdd3', question: 'What is the first thing you expect when you run a newly written test in TDD?', options: ['The test should fail', 'The test should pass', 'The test should skip', 'The test should throw an error'], correctAnswer: 0 },
+                { id: 'tdd4', question: 'What is the main goal of TDD?', options: ['To write clean, working code with good test coverage', 'To write tests as fast as possible', 'To avoid writing documentation', 'To reduce development time by skipping planning'], correctAnswer: 0 },
+                { id: 'tdd5', question: 'What kind of tests are usually written in TDD?', options: ['Unit tests', 'Manual tests', 'Visual tests', 'Load tests'], correctAnswer: 0 },
+                { id: 'tdd6', question: 'You write a test, then code, and then it passes. What approach is this?', options: ['Test-Driven Development', 'Code-First Development', 'Waterfall Development', 'Agile Development'], correctAnswer: 0 },
+                { id: 'tdd7', question: 'What is meant by the term refactor in TDD?', options: ['Improving code structure without changing functionality', 'Adding new features to the code', 'Removing all tests', 'Rewriting the entire application'], correctAnswer: 0 },
+                { id: 'tdd8', question: 'In TDD, a test case is said to pass when:', options: ['The actual output matches the expected output', 'The code compiles without errors', 'The test runs without crashing', 'The code is committed to version control'], correctAnswer: 0 },
+                { id: 'tdd9', question: 'Which of the following is NOT true about TDD?', options: ['Tests are written after all features are complete', 'It helps catch bugs early', 'It encourages modular code design', 'Tests serve as documentation'], correctAnswer: 0 }
+            ],
+            solid: [
+                { id: 'solid1', question: 'What does the S in SOLID stand for?', options: ['Single Responsibility Principle', 'Software Responsibility Principle', 'System Responsibility Principle', 'Simple Responsibility Principle'], correctAnswer: 0 },
+                { id: 'solid2', question: 'According to the Single Responsibility Principle, a class should:', options: ['Have only one reason to change', 'Have only one method', 'Inherit from only one parent class', 'Be used in only one place'], correctAnswer: 0 },
+                { id: 'solid3', question: 'What is the main idea of the Open/Closed Principle?', options: ['Software entities should be open for extension but closed for modification', 'Classes should be open to the public', 'Methods should be either open or closed', 'Code should be open source'], correctAnswer: 0 },
+                { id: 'solid4', question: 'Which principle says that a subclass should be replaceable for its superclass?', options: ['Liskov Substitution Principle', 'Single Responsibility Principle', 'Interface Segregation Principle', 'Dependency Inversion Principle'], correctAnswer: 0 },
+                { id: 'solid5', question: 'What does the Interface Segregation Principle suggest?', options: ['Clients should not be forced to depend on interfaces they do not use', 'All interfaces should be segregated into separate files', 'Interfaces should have as many methods as possible', 'Only one interface should exist per project'], correctAnswer: 0 },
+                { id: 'solid6', question: 'The Dependency Inversion Principle promotes:', options: ['Depending on abstractions rather than concrete implementations', 'Inverting the order of dependencies in code', 'Avoiding all dependencies between classes', 'Making all classes depend on a single class'], correctAnswer: 0 }
+            ],
+            uml: [
+                { id: 'uml1', question: 'What is the primary purpose of UML?', options: ['To visualize, specify, construct, and document software systems', 'To write code faster', 'To replace programming languages', 'To test software applications'], correctAnswer: 0 },
+                { id: 'uml2', question: 'Which of the following is not a type of UML diagram?', options: ['Flow Chart Diagram', 'Class Diagram', 'Use Case Diagram', 'Sequence Diagram'], correctAnswer: 0 },
+                { id: 'uml3', question: 'Why is it useful to draw UML diagrams before writing code?', options: ['It helps plan and visualize the system structure and behavior', 'It makes coding unnecessary', 'It automatically generates code', 'It is required by all programming languages'], correctAnswer: 0 },
+                { id: 'uml4', question: 'A class diagram shows the flow of actions in a system', options: ['False', 'True'], correctAnswer: 0 },
+                { id: 'uml5', question: 'What does a use case diagram represent?', options: ['The functional requirements and interactions between users and system', 'The internal structure of classes', 'The sequence of method calls', 'The database schema'], correctAnswer: 0 },
+                { id: 'uml6', question: 'Which UML diagram shows the static structure of a system?', options: ['Class Diagram', 'Activity Diagram', 'Sequence Diagram', 'Use Case Diagram'], correctAnswer: 0 },
+                { id: 'uml7', question: 'In a use case diagram, the user is represented as:', options: ['An actor', 'A circle', 'A rectangle', 'An arrow'], correctAnswer: 0 },
+                { id: 'uml8', question: 'What is the purpose of an activity diagram?', options: ['To show the flow of activities and decisions in a process', 'To show class relationships', 'To show user interactions', 'To show database tables'], correctAnswer: 0 },
+                { id: 'uml9', question: 'Which UML diagram shows the interaction between objects over time?', options: ['Sequence Diagram', 'Class Diagram', 'Use Case Diagram', 'Activity Diagram'], correctAnswer: 0 },
+                { id: 'uml10', question: 'In a class diagram, what symbol represents inheritance?', options: ['A line with an empty triangle pointing to the parent class', 'A dotted line', 'A solid line with no arrow', 'A diamond shape'], correctAnswer: 0 },
+                { id: 'uml11', question: 'Which tools can be used to draw UML diagrams?', options: ['Lucidchart, Draw.io, Visual Paradigm', 'Microsoft Word only', 'Notepad', 'Web browsers'], correctAnswer: 0 }
+            ],
+            coding: [
+                { id: 'code_python', question: 'Write a function called add that takes two numbers and returns their sum. Then write at least 2 test cases using assertions to verify it works correctly. Follow TDD principles.', track: 'python', initialCode: '# Step 1: Write your test cases first\n# Example: assert add(2, 3) == 5\n\n# TODO: Write at least 2 test cases here\n\n\n# Step 2: Write the function to make tests pass\ndef add(a, b):\n    # TODO: Implement the function\n    pass\n\n\n# Step 3: Run your tests\n# Uncomment the line below when ready\n# print("All tests passed!")' },
+                { id: 'code_javascript', question: 'Write a function called add that takes two numbers and returns their sum. Then write at least 2 test cases to verify it works correctly. Follow TDD principles.', track: 'javascript', initialCode: '// Step 1: Write your test cases first\n// Example test function\nfunction testAdd() {\n    // TODO: Write at least 2 test cases here\n    // Use console.assert() or simple if statements\n    \n}\n\n// Step 2: Write the function to make tests pass\nfunction add(a, b) {\n    // TODO: Implement the function\n}\n\n// Step 3: Run your tests\n// Uncomment the line below when ready\n// testAdd();\n// console.log("All tests passed!");' }
+            ]
+        };
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function calculateScore() {
+            let correct = 0;
+            let total = 0;
+            const allQ = [...questions.oop, ...questions.tdd, ...questions.solid, ...questions.uml];
+            allQ.forEach(q => {
+                total++;
+                if (state.answers[q.id] === q.correctAnswer) correct++;
+            });
+            return { correct, total, percentage: ((correct / total) * 100).toFixed(2) };
+        }
+
+        function submitAssessment() {
+            const scoreData = calculateScore();
+            state.score = scoreData;
+            state.isSubmitted = true;
+            if (timerInterval) clearInterval(timerInterval);
+
+            const submissionData = {
+                timestamp: new Date().toISOString(),
+                fullName: state.formData.fullName,
+                email: state.formData.email,
+                track: state.formData.track,
+                score: `${scoreData.correct}/${scoreData.total}`,
+                percentage: `${scoreData.percentage}%`,
+                timeUsed: formatTime(7200 - state.timeRemaining),
+                ...state.answers
+            };
+
+            // Replace with your actual Google Apps Script URL
+            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzz4q_qBPUaXERbcgHpwY6ggim4upQIEjTN3yzY9TdT9ke3SAyLtiPSWdwT0duTI5_2/exec';
+            
+            fetch(GOOGLE_SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(submissionData)
+            }).then(() => {
+                console.log('Submitted to Google Sheets');
+            }).catch(err => {
+                console.error('Error submitting to Google Sheets:', err);
+            });
+
+            render();
+        }
+
+        function handleDownloadCSV() {
+            const scoreData = state.score;
+            const rows = [
+                ['Full Name', state.formData.fullName],
+                ['Email', state.formData.email],
+                ['Track', state.formData.track],
+                ['Score', `${scoreData.correct}/${scoreData.total}`],
+                ['Percentage', `${scoreData.percentage}%`],
+                ['Time', formatTime(7200 - state.timeRemaining)],
+                ['Timestamp', new Date().toISOString()],
+                [],
+                ['Question ID', 'Answer'],
+                ...Object.entries(state.answers).map(([k, v]) => [k, v])
+            ].map(row => row.join(',')).join('\n');
+
+            const dataStr = 'data:text/csv;charset=utf-8,' + encodeURIComponent(rows);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute('href', dataStr);
+            downloadAnchor.setAttribute('download', `assessment_${state.formData.email}_${Date.now()}.csv`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                state.timeRemaining--;
+                if (state.timeRemaining <= 0) {
+                    submitAssessment();
+                }
+                render();
+            }, 1000);
+        }
+
+        function renderInstructions() {
+            return `
+                <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 select-none">
+                    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <h1 class="text-3xl font-bold text-gray-800 mb-6">Technical Assessment</h1>
+                        <h2 class="text-xl font-semibold text-gray-700 mb-4">TDD, OOP, SOLID and UML</h2>
+                        
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                            <div class="flex">
+                                <div class="text-yellow-400 mr-3">${icons.AlertCircle()}</div>
+                                <div>
+                                    <h3 class="font-bold text-yellow-800">Important Instructions</h3>
+                                    <ul class="list-disc ml-5 mt-2 text-yellow-800 space-y-2">
+                                        <li>Time Limit: 2 hours</li>
+                                        <li>Do NOT leave this page - progress will be lost</li>
+                                        <li>Answer all questions to the best of your ability</li>
+                                        <li>For code questions, edit the provided code directly</li>
+                                        <li>Results submitted to Google Sheets automatically</li>
+                                        <li>Download CSV as backup proof of submission</li>
+                                        <li>All questions are required</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Full Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="fullName" value="${state.formData.fullName}" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter your full name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Email Address <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" id="email" value="${state.formData.email}" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter your email">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Select Track <span class="text-red-500">*</span>
+                                </label>
+                                <select id="track" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                                    <option value="">Choose your track...</option>
+                                    <option value="python" ${state.formData.track === 'python' ? 'selected' : ''}>Python</option>
+                                    <option value="javascript" ${state.formData.track === 'javascript' ? 'selected' : ''}>JavaScript</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="startBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed">
+                            Start Assessment
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSubmitted() {
+            return `
+                <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-8 select-none">
+                    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div class="text-center">
+                            <div class="w-16 h-16 text-green-500 mx-auto mb-4">${icons.CheckCircle()}</div>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-4">Assessment Submitted!</h1>
+                            
+                            <div class="bg-blue-50 p-6 rounded-lg mb-6">
+                                <h2 class="text-xl font-semibold mb-4">Your Score (Objective Questions)</h2>
+                                <p class="text-4xl font-bold text-blue-600 mb-2">
+                                    ${state.score.correct} / ${state.score.total}
+                                </p>
+                                <p class="text-2xl text-gray-700">${state.score.percentage}%</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                <p class="text-gray-700">
+                                    Your coding questions will be reviewed by your coach.
+                                </p>
+                            </div>
+
+                            <button id="downloadBtn" class="flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 mx-auto">
+                                ${icons.Download()}
+                                Download Backup CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderQuestionSection(title, questionList) {
+            return `
+                <section class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">${title}</h3>
+                    ${questionList.map((q, i) => `
+                        <div class="mb-6 pb-6 border-b last:border-b-0">
+                            <p class="font-semibold text-gray-700 mb-3">
+                                ${i + 1}. ${q.question} <span class="text-red-500">*</span>
+                            </p>
+                            <div class="space-y-2">
+                                ${q.options.map((opt, j) => `
+                                    <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                        <input type="radio" name="${q.id}" value="${j}" ${state.answers[q.id] === j ? 'checked' : ''} class="w-4 h-4">
+                                        <span class="text-gray-700">${opt}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </section>
+            `;
+        }
+
+        function renderAssessment() {
+            const codingQ = questions.coding.find(q => q.track === state.formData.track);
+            const timeColor = state.timeRemaining < 600 ? 'text-red-500' : 'text-blue-600';
+
+            return `
+                <div class="min-h-screen bg-gray-50 p-8 select-none">
+                    ${state.tabWarning ? `
+                        <div class="fixed top-0 left-0 right-0 bg-red-600 text-white p-4 text-center z-50">
+                            <span class="inline-block mr-2">${icons.AlertCircle()}</span>
+                            Warning: Do not leave this tab!
+                        </div>
+                    ` : ''}
+
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-lg shadow-lg p-6 mb-6 sticky top-0 z-40">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-800">${state.formData.fullName}</h2>
+                                    <p class="text-sm text-gray-600">${state.formData.track.toUpperCase()} Track</p>
+                                </div>
+                                <div class="flex items-center gap-2 text-lg font-semibold">
+                                    <span class="${timeColor}">${icons.Clock()}</span>
+                                    <span class="${timeColor}">${formatTime(state.timeRemaining)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            ${renderQuestionSection('Object-Oriented Programming', questions.oop)}
+                            ${renderQuestionSection('Test-Driven Development', questions.tdd)}
+                            ${renderQuestionSection('SOLID Principles', questions.solid)}
+                            ${renderQuestionSection('UML Diagrams', questions.uml)}
+
+                            ${codingQ ? `
+                                <section class="bg-white rounded-lg shadow p-6">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Coding Challenge</h3>
+                                    <p class="font-semibold text-gray-700 mb-3">
+                                        ${codingQ.question} <span class="text-red-500">*</span>
+                                    </p>
+                                    <textarea id="codingAnswer" class="w-full h-64 p-4 border border-gray-300 rounded-lg font-mono text-sm" placeholder="Write your code here...">${state.answers[codingQ.id] || codingQ.initialCode}</textarea>
+                                </section>
+                            ` : ''}
+
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <button id="submitBtn" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700">
+                                    Submit Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            
+            if (state.isSubmitted) {
+                app.innerHTML = renderSubmitted();
+                document.getElementById('downloadBtn').addEventListener('click', handleDownloadCSV);
+            } else if (state.currentPage === 'instructions') {
+                app.innerHTML = renderInstructions();
+                
+                document.getElementById('fullName').addEventListener('input', (e) => {
+                    state.formData.fullName = e.target.value;
+                });
+                document.getElementById('email').addEventListener('input', (e) => {
+                    state.formData.email = e.target.value;
+                });
+                document.getElementById('track').addEventListener('change', (e) => {
+                    state.formData.track = e.target.value;
+                });
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    if (state.formData.fullName && state.formData.email && state.formData.track) {
+                        state.hasStarted = true;
+                        state.currentPage = 'assessment';
+                        startTimer();
+                        render();
+                    }
+                });
+            } else {
+                app.innerHTML = renderAssessment();
+                
+                // Add event listeners for all radio buttons
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        const questionId = e.target.name;
+                        const answerIndex = parseInt(e.target.value);
+                        state.answers[questionId] = answerIndex;
+                    });
+                });
+
+                // Add event listener for coding textarea
+                const codingTextarea = document.getElementById('codingAnswer');
+                if (codingTextarea) {
+                    codingTextarea.addEventListener('input', (e) => {
+                        const codingQ = questions.coding.find(q => q.track === state.formData.track);
+                        state.answers[codingQ.id] = e.target.value;
+                    });
+                }
+
+                document.getElementById('submitBtn').addEventListener('click', submitAssessment);
+            }
+
+            // Prevent copy/paste/right-click
+            document.addEventListener('copy', (e) => e.preventDefault());
+            document.addEventListener('cut', (e) => e.preventDefault());
+            document.addEventListener('paste', (e) => e.preventDefault());
+            document.addEventListener('contextmenu', (e) => e.preventDefault());
+        }
+
+        // Tab visibility warning
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && state.hasStarted && !state.isSubmitted) {
+                state.tabWarning = true;
+                render();
+            }
+        });
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
