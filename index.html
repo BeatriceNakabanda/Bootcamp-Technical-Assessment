@@ -294,7 +294,7 @@
             const timeColor = state.timeRemaining < 600 ? 'text-red-500' : 'text-blue-600';
 
             return `
-                <div class="min-h-screen bg-gray-50 p-8 select-none">
+                <div class="min-h-screen bg-gray-50 p-8">
                     ${state.tabWarning ? `
                         <div class="fixed top-0 left-0 right-0 bg-red-600 text-white p-4 text-center z-50">
                             <span class="inline-block mr-2">${icons.AlertCircle()}</span>
@@ -328,7 +328,8 @@
                                     <p class="font-semibold text-gray-700 mb-3">
                                         ${codingQ.question} <span class="text-red-500">*</span>
                                     </p>
-                                    <textarea id="codingAnswer" class="w-full h-64 p-4 border border-gray-300 rounded-lg font-mono text-sm" placeholder="Write your code here...">${state.answers[codingQ.id] || codingQ.initialCode}</textarea>
+                                    <p class="text-sm text-gray-600 mb-3">💡 You can copy and paste code in this field</p>
+                                    <textarea id="codingAnswer" class="w-full h-64 p-4 border-2 border-gray-300 rounded-lg font-mono text-sm bg-white focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="Write your code here..." spellcheck="false"></textarea>
                                 </section>
                             ` : ''}
 
@@ -384,10 +385,17 @@
                 // Add event listener for coding textarea
                 const codingTextarea = document.getElementById('codingAnswer');
                 if (codingTextarea) {
+                    const codingQ = questions.coding.find(q => q.track === state.formData.track);
+                    // Set initial value if exists, otherwise use initial code
+                    codingTextarea.value = state.answers[codingQ.id] || codingQ.initialCode;
+                    
                     codingTextarea.addEventListener('input', (e) => {
-                        const codingQ = questions.coding.find(q => q.track === state.formData.track);
                         state.answers[codingQ.id] = e.target.value;
                     });
+                    
+                    // Ensure textarea is editable
+                    codingTextarea.removeAttribute('readonly');
+                    codingTextarea.removeAttribute('disabled');
                 }
 
                 document.getElementById('submitBtn').addEventListener('click', submitAssessment);
