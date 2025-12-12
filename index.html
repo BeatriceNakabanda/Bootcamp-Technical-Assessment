@@ -125,6 +125,7 @@
                 ...state.answers
             };
 
+            // Replace with your actual Google Apps Script URL
             const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycby49iKRwpiy4rMj3xdw04695a8_XtNW2IiPmwBmU-uQDVv_6wWA79PQ4OZV7xjpYno/exec';
             
             fetch(GOOGLE_SHEET_URL, {
@@ -177,7 +178,7 @@
 
         function renderInstructions() {
             return `
-                <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 select-none">
+                <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
                     <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
                         <h1 class="text-3xl font-bold text-gray-800 mb-6">Technical Assessment</h1>
                         <h2 class="text-xl font-semibold text-gray-700 mb-4">TDD, OOP, SOLID and UML</h2>
@@ -235,7 +236,7 @@
 
         function renderSubmitted() {
             return `
-                <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-8 select-none">
+                <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-8">
                     <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
                         <div class="text-center">
                             <div class="w-16 h-16 text-green-500 mx-auto mb-4">${icons.CheckCircle()}</div>
@@ -392,11 +393,19 @@
                 document.getElementById('submitBtn').addEventListener('click', submitAssessment);
             }
 
-            // Prevent copy/paste/right-click
-            document.addEventListener('copy', (e) => e.preventDefault());
-            document.addEventListener('cut', (e) => e.preventDefault());
-            document.addEventListener('paste', (e) => e.preventDefault());
-            document.addEventListener('contextmenu', (e) => e.preventDefault());
+            // Prevent copy/paste/right-click EXCEPT in coding textarea
+            document.addEventListener('copy', (e) => {
+                if (e.target.id !== 'codingAnswer') e.preventDefault();
+            });
+            document.addEventListener('cut', (e) => {
+                if (e.target.id !== 'codingAnswer') e.preventDefault();
+            });
+            document.addEventListener('paste', (e) => {
+                if (e.target.id !== 'codingAnswer') e.preventDefault();
+            });
+            document.addEventListener('contextmenu', (e) => {
+                if (e.target.id !== 'codingAnswer') e.preventDefault();
+            });
         }
 
         // Tab visibility warning
