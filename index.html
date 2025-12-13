@@ -15,14 +15,16 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfdgtOwmLMEAaZ5mqd9IaGe16X1WCD7BGbpOT76BPj6Z6bKQnvUqAd02rLZx4dYs4O/exec';
+        // REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJl3ZABFBNpnuTgtBlwlwnjkYjKvCvL4GGLzKnTixbrFELgDNNx0ElcRpEaqgQo8znvQ/exec';
 
-        const Clock = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>);
-        const AlertTriangle = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>);
-        const CheckCircle = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>);
-        const Download = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>);
-        const ChevronLeft = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>);
-        const ChevronRight = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>);
+        // SVG Icons
+        const Clock = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>);
+        const AlertTriangle = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>);
+        const CheckCircle = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>);
+        const Download = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>);
+        const ChevronLeft = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>);
+        const ChevronRight = () => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>);
 
         function AssessmentPlatform() {
             const [started, setStarted] = useState(false);
@@ -38,56 +40,56 @@
                 {
                     name: "Object-Oriented Programming",
                     questions: [
-                        { id: "oop_1", type: "multiple", question: "List the 4 main pillars of OOP?", options: ["Classes, Objects, Methods, Properties", "Encapsulation, Inheritance, Polymorphism, Abstraction", "Variables, Functions, Loops, Conditions"], correct: 1 },
+                        { id: "oop_1", type: "multiple", question: "List the 4 main pillars of OOP?", options: ["Classes, Objects, Methods, Properties", "Encapsulation, Inheritance, Polymorphism, Abstraction", "Variables, Functions, Loops, Conditions", "Data, Logic, Interface, Implementation"], correct: 1 },
                         { id: "oop_2", type: "multiple", question: "What is the term used to describe the process of hiding internal details and showing only functionalities?", options: ["Encapsulation", "Inheritance", "Abstraction", "Polymorphism"], correct: 2 },
-                        { id: "oop_3", type: "multiple", question: "What is a class in OOP?", options: ["An instance of an object", "A blueprint for creating objects", "A method that returns a value"], correct: 1 },
-                        { id: "oop_4", type: "multiple", question: "Which of these keywords is used to create an object in most OOP languages?", options: ["create", "new", "instance"], correct: 1 },
-                        { id: "oop_5", type: "multiple", question: "What does encapsulation help to achieve?", options: ["Creating multiple instances of a class", "Data hiding and bundling of data with methods", "Inheriting properties from parent classes"], correct: 1 },
-                        { id: "oop_6", type: "multiple", question: "Which concept allows a class to use properties and methods of another class?", options: ["Polymorphism", "Inheritance", "Encapsulation"], correct: 1 },
-                        { id: "oop_7", type: "multiple", question: "Which of the following best describes polymorphism?", options: ["The process of hiding data", "The ability of objects to take many forms", "Creating blueprints for objects"], correct: 1 },
-                        { id: "oop_8", type: "multiple", question: "What is an object in OOP?", options: ["A blueprint for creating classes", "An instance of a class", "A method that returns data"], correct: 1 },
-                        { id: "oop_9", type: "multiple", question: "Inheritance in OOP allows for:", options: ["Hiding implementation details", "Code reusability and establishing relationships between classes", "Creating multiple objects at once"], correct: 1 }
+                        { id: "oop_3", type: "multiple", question: "What is a class in OOP?", options: ["An instance of an object", "A blueprint for creating objects", "A method that returns a value", "A variable that stores data"], correct: 1 },
+                        { id: "oop_4", type: "multiple", question: "Which of these keywords is used to create an object in most OOP languages?", options: ["create", "new", "instance", "make"], correct: 1 },
+                        { id: "oop_5", type: "multiple", question: "What does encapsulation help to achieve?", options: ["Creating multiple instances of a class", "Data hiding and bundling of data with methods", "Inheriting properties from parent classes", "Executing code multiple times"], correct: 1 },
+                        { id: "oop_6", type: "multiple", question: "Which concept allows a class to use properties and methods of another class?", options: ["Polymorphism", "Inheritance", "Encapsulation", "Abstraction"], correct: 1 },
+                        { id: "oop_7", type: "multiple", question: "Which of the following best describes polymorphism?", options: ["The process of hiding data", "The ability of objects to take many forms", "Creating blueprints for objects", "Storing multiple values in one variable"], correct: 1 },
+                        { id: "oop_8", type: "multiple", question: "What is an object in OOP?", options: ["A blueprint for creating classes", "An instance of a class", "A method that returns data", "A type of variable"], correct: 1 },
+                        { id: "oop_9", type: "multiple", question: "Inheritance in OOP allows for:", options: ["Hiding implementation details", "Code reusability and establishing relationships between classes", "Creating multiple objects at once", "Executing methods in parallel"], correct: 1 }
                     ]
                 },
                 {
                     name: "Test-Driven Development",
                     questions: [
-                        { id: "tdd_1", type: "multiple", question: "What is the correct sequence of steps in the TDD cycle?", options: ["Write code, Write test, Run test, Refactor", "Write test, Run test (fail), Write code, Run test (pass), Refactor", "Design, Code, Test, Deploy"], correct: 1 },
-                        { id: "tdd_2", type: "multiple", question: "In TDD, when should you write your tests?", options: ["After writing the implementation code", "Before writing the implementation code", "During code review"], correct: 1 },
-                        { id: "tdd_3", type: "multiple", question: "What is the first thing you expect when you run a newly written test in TDD?", options: ["The test should pass", "The test should fail", "The test should skip"], correct: 1 },
-                        { id: "tdd_4", type: "multiple", question: "What is the main goal of TDD?", options: ["To write tests as fast as possible", "To write clean, working code with good test coverage", "To avoid writing documentation"], correct: 1 },
-                        { id: "tdd_5", type: "multiple", question: "What kind of tests are usually written in TDD?", options: ["Manual tests", "Unit tests", "Visual tests"], correct: 1 },
-                        { id: "tdd_6", type: "multiple", question: "You write a test, then code, and then it passes. What approach is this?", options: ["Code-First Development", "Test-Driven Development", "Waterfall Development"], correct: 1 },
-                        { id: "tdd_7", type: "multiple", question: "What is meant by the term refactor in TDD?", options: ["Adding new features to the code", "Improving code structure without changing functionality", "Removing all tests"], correct: 1 },
-                        { id: "tdd_8", type: "multiple", question: "In TDD, a test case is said to pass when:", options: ["The code compiles without errors", "The actual output matches the expected output", "The test runs without crashing"], correct: 1 },
-                        { id: "tdd_9", type: "multiple", question: "Which of the following is NOT true about TDD?", options: ["It helps catch bugs early", "Tests are written after all features are complete", "It encourages modular code design"], correct: 1 }
+                        { id: "tdd_1", type: "multiple", question: "What is the correct sequence of steps in the TDD cycle?", options: ["Write code, Write test, Run test, Refactor", "Write test, Run test (fail), Write code, Run test (pass), Refactor", "Design, Code, Test, Deploy", "Plan, Build, Test, Release"], correct: 1 },
+                        { id: "tdd_2", type: "multiple", question: "In TDD, when should you write your tests?", options: ["After writing the implementation code", "Before writing the implementation code", "During code review", "After deployment"], correct: 1 },
+                        { id: "tdd_3", type: "multiple", question: "What is the first thing you expect when you run a newly written test in TDD?", options: ["The test should pass", "The test should fail", "The test should skip", "The test should throw an error"], correct: 1 },
+                        { id: "tdd_4", type: "multiple", question: "What is the main goal of TDD?", options: ["To write tests as fast as possible", "To write clean, working code with good test coverage", "To avoid writing documentation", "To reduce development time by skipping planning"], correct: 1 },
+                        { id: "tdd_5", type: "multiple", question: "What kind of tests are usually written in TDD?", options: ["Manual tests", "Unit tests", "Visual tests", "Load tests"], correct: 1 },
+                        { id: "tdd_6", type: "multiple", question: "You write a test, then code, and then it passes. What approach is this?", options: ["Code-First Development", "Test-Driven Development", "Waterfall Development", "Agile Development"], correct: 1 },
+                        { id: "tdd_7", type: "multiple", question: "What is meant by the term refactor in TDD?", options: ["Adding new features to the code", "Improving code structure without changing functionality", "Removing all tests", "Rewriting the entire application"], correct: 1 },
+                        { id: "tdd_8", type: "multiple", question: "In TDD, a test case is said to pass when:", options: ["The code compiles without errors", "The actual output matches the expected output", "The test runs without crashing", "The code is committed to version control"], correct: 1 },
+                        { id: "tdd_9", type: "multiple", question: "Which of the following is NOT true about TDD?", options: ["It helps catch bugs early", "Tests are written after all features are complete", "It encourages modular code design", "Tests serve as documentation"], correct: 1 }
                     ]
                 },
                 {
                     name: "SOLID Principles",
                     questions: [
-                        { id: "solid_1", type: "multiple", question: "What does the S in SOLID stand for?", options: ["Software Responsibility Principle", "Single Responsibility Principle", "System Responsibility Principle"], correct: 1 },
-                        { id: "solid_2", type: "multiple", question: "According to the Single Responsibility Principle, a class should:", options: ["Have only one method", "Have only one reason to change", "Inherit from only one parent class"], correct: 1 },
-                        { id: "solid_3", type: "multiple", question: "What is the main idea of the Open/Closed Principle?", options: ["Classes should be open to the public", "Software entities should be open for extension but closed for modification", "Methods should be either open or closed"], correct: 1 },
-                        { id: "solid_4", type: "multiple", question: "Which principle says that a subclass should be replaceable for its superclass?", options: ["Single Responsibility Principle", "Liskov Substitution Principle", "Interface Segregation Principle"], correct: 1 },
-                        { id: "solid_5", type: "multiple", question: "What does the Interface Segregation Principle suggest?", options: ["All interfaces should be segregated into separate files", "Clients should not be forced to depend on interfaces they do not use", "Interfaces should have as many methods as possible"], correct: 1 },
-                        { id: "solid_6", type: "multiple", question: "The Dependency Inversion Principle promotes:", options: ["Inverting the order of dependencies in code", "Depending on abstractions rather than concrete implementations", "Avoiding all dependencies between classes"], correct: 1 }
+                        { id: "solid_1", type: "multiple", question: "What does the S in SOLID stand for?", options: ["Software Responsibility Principle", "Single Responsibility Principle", "System Responsibility Principle", "Simple Responsibility Principle"], correct: 1 },
+                        { id: "solid_2", type: "multiple", question: "According to the Single Responsibility Principle, a class should:", options: ["Have only one method", "Have only one reason to change", "Inherit from only one parent class", "Be used in only one place"], correct: 1 },
+                        { id: "solid_3", type: "multiple", question: "What is the main idea of the Open/Closed Principle?", options: ["Classes should be open to the public", "Software entities should be open for extension but closed for modification", "Methods should be either open or closed", "Code should be open source"], correct: 1 },
+                        { id: "solid_4", type: "multiple", question: "Which principle says that a subclass should be replaceable for its superclass?", options: ["Single Responsibility Principle", "Liskov Substitution Principle", "Interface Segregation Principle", "Dependency Inversion Principle"], correct: 1 },
+                        { id: "solid_5", type: "multiple", question: "What does the Interface Segregation Principle suggest?", options: ["All interfaces should be segregated into separate files", "Clients should not be forced to depend on interfaces they do not use", "Interfaces should have as many methods as possible", "Only one interface should exist per project"], correct: 1 },
+                        { id: "solid_6", type: "multiple", question: "The Dependency Inversion Principle promotes:", options: ["Inverting the order of dependencies in code", "Depending on abstractions rather than concrete implementations", "Avoiding all dependencies between classes", "Making all classes depend on a single class"], correct: 1 }
                     ]
                 },
                 {
                     name: "UML Diagrams",
                     questions: [
-                        { id: "uml_1", type: "multiple", question: "What is the primary purpose of UML?", options: ["To write code faster", "To visualize, specify, construct, and document software systems", "To replace programming languages"], correct: 1 },
-                        { id: "uml_2", type: "multiple", question: "Which of the following is not a type of UML diagram?", options: ["Class Diagram", "Flow Chart Diagram", "Use Case Diagram"], correct: 1 },
-                        { id: "uml_3", type: "multiple", question: "Why is it useful to draw UML diagrams before writing code?", options: ["It makes coding unnecessary", "It helps plan and visualize the system structure and behavior", "It automatically generates code"], correct: 1 },
+                        { id: "uml_1", type: "multiple", question: "What is the primary purpose of UML?", options: ["To write code faster", "To visualize, specify, construct, and document software systems", "To replace programming languages", "To test software applications"], correct: 1 },
+                        { id: "uml_2", type: "multiple", question: "Which of the following is not a type of UML diagram?", options: ["Class Diagram", "Flow Chart Diagram", "Use Case Diagram", "Sequence Diagram"], correct: 1 },
+                        { id: "uml_3", type: "multiple", question: "Why is it useful to draw UML diagrams before writing code?", options: ["It makes coding unnecessary", "It helps plan and visualize the system structure and behavior", "It automatically generates code", "It is required by all programming languages"], correct: 1 },
                         { id: "uml_4", type: "multiple", question: "A class diagram shows the flow of actions in a system", options: ["True", "False"], correct: 1 },
-                        { id: "uml_5", type: "multiple", question: "What does a use case diagram represent?", options: ["The internal structure of classes", "The functional requirements and interactions between users and system", "The sequence of method calls"], correct: 1 },
-                        { id: "uml_6", type: "multiple", question: "Which UML diagram shows the static structure of a system?", options: ["Activity Diagram", "Class Diagram", "Sequence Diagram"], correct: 1 },
-                        { id: "uml_7", type: "multiple", question: "In a use case diagram, the user is represented as:", options: ["A circle", "An actor", "A rectangle"], correct: 1 },
-                        { id: "uml_8", type: "multiple", question: "What is the purpose of an activity diagram?", options: ["To show class relationships", "To show the flow of activities and decisions in a process", "To show user interactions"], correct: 1 },
-                        { id: "uml_9", type: "multiple", question: "Which UML diagram shows the interaction between objects over time?", options: ["Class Diagram", "Sequence Diagram", "Use Case Diagram"], correct: 1 },
-                        { id: "uml_10", type: "multiple", question: "In a class diagram, what symbol represents inheritance?", options: ["A dotted line", "A line with an empty triangle pointing to the parent class", "A solid line with no arrow"], correct: 1 },
-                        { id: "uml_11", type: "multiple", question: "Which tools can be used to draw UML diagrams?", options: ["Microsoft Word only", "Lucidchart, Draw.io, Visual Paradigm", "Notepad"], correct: 1 }
+                        { id: "uml_5", type: "multiple", question: "What does a use case diagram represent?", options: ["The internal structure of classes", "The functional requirements and interactions between users and system", "The sequence of method calls", "The database schema"], correct: 1 },
+                        { id: "uml_6", type: "multiple", question: "Which UML diagram shows the static structure of a system?", options: ["Activity Diagram", "Class Diagram", "Sequence Diagram", "Use Case Diagram"], correct: 1 },
+                        { id: "uml_7", type: "multiple", question: "In a use case diagram, the user is represented as:", options: ["A circle", "An actor", "A rectangle", "An arrow"], correct: 1 },
+                        { id: "uml_8", type: "multiple", question: "What is the purpose of an activity diagram?", options: ["To show class relationships", "To show the flow of activities and decisions in a process", "To show user interactions", "To show database tables"], correct: 1 },
+                        { id: "uml_9", type: "multiple", question: "Which UML diagram shows the interaction between objects over time?", options: ["Class Diagram", "Sequence Diagram", "Use Case Diagram", "Activity Diagram"], correct: 1 },
+                        { id: "uml_10", type: "multiple", question: "In a class diagram, what symbol represents inheritance?", options: ["A dotted line", "A line with an empty triangle pointing to the parent class", "A solid line with no arrow", "A diamond shape"], correct: 1 },
+                        { id: "uml_11", type: "multiple", question: "Which tools can be used to draw UML diagrams?", options: ["Microsoft Word only", "Lucidchart, Draw.io, Visual Paradigm", "Notepad", "Web browsers"], correct: 1 }
                     ]
                 },
                 {
@@ -116,54 +118,356 @@
 
             useEffect(() => {
                 if (started && !completed) {
-                    const h = (e) => { e.preventDefault(); e.returnValue = ''; };
-                    window.addEventListener('beforeunload', h);
-                    return () => window.removeEventListener('beforeunload', h);
+                    const handleBeforeUnload = (e) => { e.preventDefault(); e.returnValue = ''; };
+                    window.addEventListener('beforeunload', handleBeforeUnload);
+                    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
                 }
             }, [started, completed]);
 
             useEffect(() => {
                 if (started && !completed && timeRemaining > 0) {
-                    const t = setInterval(() => setTimeRemaining(p => p <= 1 ? (handleSubmit(), 0) : p - 1), 1000);
-                    return () => clearInterval(t);
+                    const timer = setInterval(() => {
+                        setTimeRemaining(prev => { 
+                            if (prev <= 1) { 
+                                handleSubmit(); 
+                                return 0; 
+                            } 
+                            return prev - 1; 
+                        });
+                    }, 1000);
+                    return () => clearInterval(timer);
                 }
             }, [started, completed, timeRemaining]);
 
-            const formatTime = (s) => `${Math.floor(s/3600).toString().padStart(2,'0')}:${Math.floor((s%3600)/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
+            const formatTime = (s) => {
+                const h = Math.floor(s / 3600);
+                const m = Math.floor((s % 3600) / 60);
+                const sec = s % 60;
+                return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+            };
 
             const calculateResults = () => {
-                let c = 0, t = 0;
-                getFilteredSections().forEach(s => s.questions.forEach(q => { if (q.type === 'multiple') { t++; if (answers[q.id] === q.correct) c++; }}));
-                return { correct: c, total: t, percentage: t > 0 ? Math.round((c / t) * 100) : 0 };
+                const filteredSections = getFilteredSections();
+                let totalCorrect = 0;
+                let totalQuestions = 0;
+
+                filteredSections.forEach(section => {
+                    section.questions.forEach(q => {
+                        if (q.type === 'multiple') {
+                            totalQuestions++;
+                            if (answers[q.id] === q.correct) {
+                                totalCorrect++;
+                            }
+                        }
+                    });
+                });
+
+                const percentage = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+                return { correct: totalCorrect, total: totalQuestions, percentage };
             };
 
             const handleSubmit = () => { 
-                const r = calculateResults(); 
-                setResults(r); 
-                setCompleted(true); 
-                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ timestamp: new Date().toISOString(), fullName: studentInfo.name, email: studentInfo.email, track: studentInfo.track, score: `${r.correct}/${r.total}`, percentage: `${r.percentage}%`, timeUsed: formatTime(7200 - timeRemaining), ...answers })}).catch(e => console.error(e));
+                const results = calculateResults(); 
+                setResults(results); 
+                setCompleted(true);
+                
+                // Send to Google Sheets
+                const submissionData = {
+                    timestamp: new Date().toISOString(),
+                    fullName: studentInfo.name,
+                    email: studentInfo.email,
+                    track: studentInfo.track,
+                    score: `${results.correct}/${results.total}`,
+                    percentage: `${results.percentage}%`,
+                    timeUsed: formatTime(7200 - timeRemaining),
+                    ...answers
+                };
+
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(submissionData)
+                }).then(() => {
+                    console.log('Submitted to Google Sheets');
+                }).catch(err => {
+                    console.error('Error submitting:', err);
+                });
             };
 
             const downloadCSV = () => {
-                let csv = `Full Name,Email,Track,Score,Percentage\n${studentInfo.name},${studentInfo.email},${studentInfo.track},${results.correct}/${results.total},${results.percentage}%\n\nQuestion,Answer\n`;
-                Object.entries(answers).forEach(([k, v]) => csv += `${k},"${typeof v === 'string' ? v.replace(/,/g, ';').replace(/\n/g, ' ') : v}"\n`);
+                let csv = 'Full Name,Email,Track,Score,Percentage,Time Used,Timestamp\n';
+                csv += `${studentInfo.name},${studentInfo.email},${studentInfo.track},${results.correct}/${results.total},${results.percentage}%,${formatTime(7200 - timeRemaining)},${new Date().toISOString()}\n\n`;
+                csv += 'Question ID,Answer\n';
+                
+                Object.entries(answers).forEach(([key, value]) => {
+                    const cleanValue = typeof value === 'string' ? value.replace(/,/g, ';').replace(/\n/g, ' | ') : value;
+                    csv += `${key},"${cleanValue}"\n`;
+                });
+
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-                a.download = `assessment_${Date.now()}.csv`;
+                a.href = url;
+                a.download = `assessment_${studentInfo.email}_${Date.now()}.csv`;
                 a.click();
             };
 
-            const getTotalQ = () => getFilteredSections().reduce((s, sec) => s + sec.questions.length, 0);
-            const getCurrentQ = () => { const f = getFilteredSections(); let c = 0; for (let i = 0; i < currentSection; i++) c += f[i].questions.length; return c + currentQuestion + 1; };
-            const getProgress = () => (getCurrentQ() / getTotalQ()) * 100;
+            const getTotalQuestions = () => getFilteredSections().reduce((sum, s) => sum + s.questions.length, 0);
+            
+            const getCurrentQuestionNumber = () => {
+                const filtered = getFilteredSections();
+                let count = 0;
+                for (let i = 0; i < currentSection; i++) {
+                    count += filtered[i].questions.length;
+                }
+                return count + currentQuestion + 1;
+            };
 
-            if (!started) return (<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4"><div className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full"><h1 className="text-4xl font-bold text-center mb-2">Technical Assessment</h1><p className="text-center text-gray-600 mb-6">TDD, OOP, SOLID and UML</p><div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6"><div className="flex"><AlertTriangle /><div className="ml-3"><h3 className="font-semibold text-yellow-800">Important:</h3><ul className="text-sm text-yellow-700 space-y-1"><li>• Time: 2 hours</li><li>• Don't leave page</li><li>• Edit code directly</li></ul></div></div></div><div className="space-y-4 mb-6"><input type="text" placeholder="Full Name *" className="w-full px-4 py-3 border rounded-lg" value={studentInfo.name} onChange={e => setStudentInfo(p => ({...p, name: e.target.value}))} /><input type="email" placeholder="Email *" className="w-full px-4 py-3 border rounded-lg" value={studentInfo.email} onChange={e => setStudentInfo(p => ({...p, email: e.target.value}))} /><select className="w-full px-4 py-3 border rounded-lg bg-white" value={studentInfo.track} onChange={e => setStudentInfo(p => ({...p, track: e.target.value}))}><option value="">Choose track...</option><option value="python">Python</option><option value="javascript">JavaScript</option></select></div><button onClick={() => studentInfo.name && studentInfo.email && studentInfo.track && setStarted(true)} disabled={!studentInfo.name || !studentInfo.email || !studentInfo.track} className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300">Start Assessment</button></div></div>);
+            const getProgress = () => {
+                const total = getTotalQuestions();
+                const current = getCurrentQuestionNumber();
+                return (current / total) * 100;
+            };
 
-            if (completed) return (<div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-4"><div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl p-8"><div className="text-center mb-6"><CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" /><h1 className="text-4xl font-bold">Assessment Submitted!</h1><p className="text-xl text-gray-600 mt-2">{studentInfo.name}</p></div><div className="bg-blue-50 p-6 rounded-lg mb-6 text-center"><h2 className="text-xl font-semibold mb-4">Your Score</h2><p className="text-5xl font-bold text-blue-600">{results.correct} / {results.total}</p><p className="text-3xl text-gray-700 mt-2">{results.percentage}%</p></div><div className="bg-gray-50 p-4 rounded-lg mb-6 text-center"><p className="text-gray-700">Coding questions will be reviewed by your coach.</p></div><button onClick={downloadCSV} className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-green-700"><Download />Download CSV</button></div></div>);
+            const goToNextQuestion = () => {
+                const filtered = getFilteredSections();
+                const section = filtered[currentSection];
+                if (currentQuestion < section.questions.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
+                } else if (currentSection < filtered.length - 1) {
+                    setCurrentSection(currentSection + 1);
+                    setCurrentQuestion(0);
+                }
+            };
 
-            const f = getFilteredSections(), sec = f[currentSection], q = sec.questions[currentQuestion];
+            const goToPrevQuestion = () => {
+                if (currentQuestion > 0) {
+                    setCurrentQuestion(currentQuestion - 1);
+                } else if (currentSection > 0) {
+                    const filtered = getFilteredSections();
+                    setCurrentSection(currentSection - 1);
+                    setCurrentQuestion(filtered[currentSection - 1].questions.length - 1);
+                }
+            };
 
-            return (<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100"><div className="bg-white shadow-lg sticky top-0 z-10"><div className="max-w-5xl mx-auto px-6 py-4"><div className="flex justify-between items-center"><div><h1 className="text-2xl font-bold">Technical Assessment</h1><p className="text-sm text-gray-600">{studentInfo.name} - {studentInfo.track.toUpperCase()}</p></div><div className="flex items-center gap-2"><Clock /><span className={`text-2xl font-bold ${timeRemaining < 600 ? 'text-red-600' : 'text-gray-900'}`}>{formatTime(timeRemaining)}</span></div></div><div className="mt-4"><div className="flex justify-between text-sm text-gray-600 mb-2"><span>Question {getCurrentQ()} of {getTotalQ()}</span><span>{Math.round(getProgress())}%</span></div><div className="w-full bg-gray-200 rounded-full h-3"><div className="bg-blue-600 h-3 rounded-full" style={{width: `${getProgress()}%`}} /></div></div></div></div><div className="max-w-4xl mx-auto p-6"><div className="bg-white rounded-2xl shadow-xl p-8"><div className="mb-6"><div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">{sec.name}</div><h2 className="text-2xl font-bold">Question {getCurrentQ()}</h2></div><div className="mb-8"><p className="text-lg text-gray-800">{q.question}</p></div>{q.type === 'multiple' ? (<div className="space-y-3">{q.options.map((o, i) => (<label key={i} className={`flex items-center p-4 border-2 rounded-lg cursor-pointer ${answers[q.id] === i ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'}`}><input type="radio" checked={answers[q.id] === i} onChange={() => setAnswers(p => ({...p, [q.id]: i}))} className="w-5 h-5" /><span className="ml-3">{o}</span></label>))}</div>) : (<div><div className="bg-gray-800 rounded-t-lg px-4 py-2"><span className="text-sm text-gray-200 font-semibold">Code Editor</span></div><textarea value={answers[q.id] || q.baseCode} onChange={e => setAnswers(p => ({...p, [q.id]: e.target.value}))} className="w-full h-96 p-4 border-2 border-gray-300 rounded-b-lg font-mono text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500" spellCheck={false} /></div>)}<div className="flex justify-between mt-8 pt-6 border-t"><button onClick={() => { if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1); else if (currentSection > 0) { setCurrentSection(currentSection - 1); setCurrentQuestion(f[currentSection - 1].questions.length - 1); }}} disabled={currentSection === 0 && currentQuestion === 0} className="flex items-center gap-2 px-6 py-3 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300 disabled:opacity-50"><ChevronLeft />Previous</button>{currentSection === f.length - 1 && currentQuestion === f[currentSection].questions.length - 1 ? (<button onClick={handleSubmit} className="px-8 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700">Submit</button>) : (<button onClick={() => { if (currentQuestion < sec.questions.length - 1) setCurrentQuestion(currentQuestion + 1); else { setCurrentSection(currentSection + 1); setCurrentQuestion(0); }}} className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">Next<ChevronRight /></button>)}</div></div></div></div>);
+            const isLastQuestion = () => {
+                const filtered = getFilteredSections();
+                return currentSection === filtered.length - 1 && 
+                       currentQuestion === filtered[currentSection].questions.length - 1;
+            };
+
+            // START SCREEN
+            if (!started) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full">
+                            <div className="text-center mb-8">
+                                <h1 className="text-4xl font-bold text-gray-900 mb-2">Technical Assessment</h1>
+                                <p className="text-gray-600">TDD, OOP, SOLID and UML</p>
+                            </div>
+                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div className="flex items-start">
+                                    <div className="flex-shrink-0"><AlertTriangle /></div>
+                                    <div className="ml-3">
+                                        <h3 className="font-semibold text-yellow-800 mb-2">Important Instructions:</h3>
+                                        <ul className="text-sm text-yellow-700 space-y-1">
+                                            <li>• Time Limit: 2 hours</li>
+                                            <li>• Do NOT leave this page - progress will be lost</li>
+                                            <li>• Answer all questions to the best of your ability</li>
+                                            <li>• For code questions, edit the provided code directly</li>
+                                            <li>• Results submitted to Google Sheets automatically</li>
+                                            <li>• Download CSV as backup proof of submission</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-4 mb-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                    <input type="text" value={studentInfo.name} 
+                                        onChange={(e) => setStudentInfo(prev => ({ ...prev, name: e.target.value }))}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                        placeholder="Enter your full name" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                    <input type="email" value={studentInfo.email} 
+                                        onChange={(e) => setStudentInfo(prev => ({ ...prev, email: e.target.value }))}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                        placeholder="Enter your email" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Track *</label>
+                                    <select value={studentInfo.track} 
+                                        onChange={(e) => setStudentInfo(prev => ({ ...prev, track: e.target.value }))}
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                        <option value="">Choose your track...</option>
+                                        <option value="python">Python</option>
+                                        <option value="javascript">JavaScript</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button onClick={() => studentInfo.name && studentInfo.email && studentInfo.track && setStarted(true)}
+                                disabled={!studentInfo.name || !studentInfo.email || !studentInfo.track}
+                                className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">
+                                Start Assessment
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // COMPLETION SCREEN
+            if (completed && results) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-100 p-4">
+                        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
+                            <div className="text-center mb-8">
+                                <div className="inline-flex items-center justify-center w-20 h-20 mb-4">
+                                    <CheckCircle />
+                                </div>
+                                <h1 className="text-4xl font-bold text-gray-900 mb-2">Assessment Submitted!</h1>
+                                <p className="text-xl text-gray-600">{studentInfo.name}</p>
+                                <p className="text-sm text-gray-500">{studentInfo.track.toUpperCase()} Track</p>
+                            </div>
+
+                            <div className="bg-blue-50 p-6 rounded-lg mb-6">
+                                <h2 className="text-xl font-semibold mb-4 text-center">Your Score (Objective Questions)</h2>
+                                <p className="text-5xl font-bold text-blue-600 mb-2 text-center">
+                                    {results.correct} / {results.total}
+                                </p>
+                                <p className="text-3xl text-gray-700 text-center">{results.percentage}%</p>
+                            </div>
+
+                            <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                                <p className="text-gray-700 text-center">
+                                    Your coding questions will be reviewed by your coach.
+                                </p>
+                            </div>
+
+                            <button onClick={downloadCSV}
+                                className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors">
+                                <Download />
+                                Download Backup CSV
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ASSESSMENT SCREEN
+            const filteredSections = getFilteredSections();
+            const section = filteredSections[currentSection];
+            const question = section.questions[currentQuestion];
+            const progress = getProgress();
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+                    <div className="bg-white shadow-lg sticky top-0 z-10">
+                        <div className="max-w-5xl mx-auto px-6 py-4">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h1 className="text-2xl font-bold text-gray-900">Technical Assessment</h1>
+                                    <p className="text-sm text-gray-600">{studentInfo.name} - {studentInfo.track.toUpperCase()}</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock />
+                                    <span className={`text-2xl font-bold ${timeRemaining < 600 ? 'text-red-600' : 'text-gray-900'}`}>
+                                        {formatTime(timeRemaining)}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <div className="flex justify-between text-sm text-gray-600 mb-2">
+                                    <span>Question {getCurrentQuestionNumber()} of {getTotalQuestions()}</span>
+                                    <span>{Math.round(progress)}% Complete</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-3">
+                                    <div className="bg-blue-600 h-3 rounded-full transition-all duration-300" 
+                                         style={{ width: `${progress}%` }} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="max-w-4xl mx-auto p-6">
+                        <div className="bg-white rounded-2xl shadow-xl p-8">
+                            <div className="mb-6">
+                                <div className="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                                    {section.name}
+                                </div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                                    Question {getCurrentQuestionNumber()}
+                                </h2>
+                            </div>
+
+                            <div className="mb-8">
+                                <p className="text-lg text-gray-800 leading-relaxed whitespace-pre-line">{question.question}</p>
+                            </div>
+
+                            {question.type === 'multiple' ? (
+                                <div className="space-y-3">
+                                    {question.options.map((option, idx) => (
+                                        <label key={idx} className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                            answers[question.id] === idx ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+                                        }`}>
+                                            <input type="radio" name={question.id} checked={answers[question.id] === idx}
+                                                onChange={() => setAnswers(prev => ({ ...prev, [question.id]: idx }))}
+                                                className="w-5 h-5 text-blue-600" />
+                                            <span className="ml-3 text-gray-900">{option}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="bg-gray-800 rounded-t-lg p-3 mb-0">
+                                        <span className="text-sm font-semibold text-gray-200">Code Editor</span>
+                                    </div>
+                                    <textarea value={answers[question.id] || question.baseCode}
+                                        onChange={(e) => setAnswers(prev => ({ ...prev, [question.id]: e.target.value }))}
+                                        className="w-full h-96 p-4 border-2 border-gray-300 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none font-mono text-sm bg-white"
+                                        placeholder="Write your code here..."
+                                        spellCheck={false} />
+                                </div>
+                            )}
+
+                            <div className="flex justify-between items-center mt-8 pt-6 border-t">
+                                <button onClick={goToPrevQuestion}
+                                    disabled={currentSection === 0 && currentQuestion === 0}
+                                    className="flex items-center gap-2 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <ChevronLeft />
+                                    Previous
+                                </button>
+
+                                {isLastQuestion() ? (
+                                    <button onClick={handleSubmit}
+                                        className="flex items-center gap-2 px-8 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                                        Submit Assessment
+                                    </button>
+                                ) : (
+                                    <button onClick={goToNextQuestion}
+                                        className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                        Next
+                                        <ChevronRight />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="mt-6 bg-white rounded-lg shadow p-4">
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium text-gray-700">
+                                    Section Progress: Question {currentQuestion + 1} of {section.questions.length}
+                                </span>
+                                <span className="text-sm text-gray-600">
+                                    {section.questions.filter(q => answers[q.id] !== undefined).length} answered
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
         ReactDOM.render(<AssessmentPlatform />, document.getElementById('root'));
